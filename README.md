@@ -15,4 +15,6 @@ In progress...
 - Trello cards are only a snapshot of ASpace data (nothing is synced). Updating Trello cards has no effect in ASpace and vice versa.
 - Trello cards only contain a subset of metadata in an accession record (if you're feeling ambitious, you can modify the script to add more fields)
 
-
+## Screenshots:
+Add some Trello card screenshots
+Add snippet of command line output
