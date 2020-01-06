@@ -3,7 +3,7 @@ aspace-to-trello.py creates Trello cards based on ArchivesSpace accession record
 
 Script is written in Python 3 and uses [ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake) and [py-trello](https://github.com/sarumont/py-trello).
 
-## Use Case:
+## Use Case
 - You use [ArchivesSpace](https://archivesspace.org) to create and manage accession records. 
 - You use [Trello](https://trello.com) for project management and workflow tracking. 
 - You're lazy, and don't want to copy/paste info about new accessions from ASpace into Trello.
