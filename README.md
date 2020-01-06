@@ -89,10 +89,43 @@ current_time_minus_day = current_time - timedelta(hours=24)
 #### Set up a cron job to execute the script every 24 hours at a specified time. Configure email notifications if you wan't to keep tabs on the script.
 
 ## Some screenshots
-Add some Trello card screenshots
+#### Sample Trello List
+![Sample Trello List](/screenshots/trello_card_list.JPG)
 
-Add snippet of command line output
+#### Sample Trello Card created by aspace-to-trello.py
+![Sample Trello Card](/screenshots/trello_card_example.JPG)
 
+#### Sample script output
+```
+nh48@vm:~$ python aspace-to-trello.py
+Target Board: Accession_to_Trello_test
+Target List: New Accessions
+Getting all Accessions created since: 2020-01-05T21:45:27.457600
+David M. Rubenstein Rare Book & Manuscript Library
+Examining last 20 accessions created in ASpace...
+UA2019-0112 not entered in last 24 hours
+UA2019-0113 not entered in last 24 hours
+UA2019-0114 not entered in last 24 hours
+2019-0190 not entered in last 24 hours
+2019-0191 not entered in last 24 hours
+2019-0192 not entered in last 24 hours
+2019-0193 not entered in last 24 hours
+2019-0194 not entered in last 24 hours
+2019-0195 not entered in last 24 hours
+2019-0196 not entered in last 24 hours
+2019-0197 not entered in last 24 hours
+2019-0198 not entered in last 24 hours
+2019-0199 not entered in last 24 hours
+2019-0200 not entered in last 24 hours
+2019-0201 not entered in last 24 hours
+2019-0202 not entered in last 24 hours
+2020-0001 not entered in last 24 hours
+UA2019-0115 not entered in last 24 hours
+Creating New Trello Card for: UA2020-001: East Campus Library blueprints | entered on: 2020-01-06T19:25:35Z | university_archives
+Creating New Trello Card for: UA2020-0002: Richard Nixon and John Bradway correspondence | entered on: 2020-01-06T19:49:25Z | university_archives
+All Done!
+nh48@vm:~$
+```
 
 ## Things to consider
 - Trello cards are only a snapshot of ArchivesSpace data (nothing is synced). Updating Trello cards has no effect in ArchivesSpace and vice versa.
