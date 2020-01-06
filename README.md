@@ -89,13 +89,14 @@ current_time_minus_day = current_time - timedelta(hours=24)
 #### Set up a cron job to execute the script every 24 hours at a specified time. Configure email notifications if you wan't to keep tabs on the script.
 
 ## Some screenshots
-#### Sample Trello List
+
+#### Sample Trello List:
 ![Sample Trello List](/screenshots/trello_card_list.JPG)
 
-#### Sample Trello Card created by aspace-to-trello.py
+#### Sample Trello Card created by aspace-to-trello.py:
 ![Sample Trello Card](/screenshots/trello_card_example.JPG)
 
-#### Sample script output
+#### Sample script output:
 ```
 nh48@vm:~$ python aspace-to-trello.py
 Target Board: Accession_to_Trello_test
