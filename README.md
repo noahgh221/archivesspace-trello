@@ -45,18 +45,18 @@ Replace brackets with your Trello Board name (string must match exactly):
           print ("Target Board: " + target_board.name)
   ```
  
-Replace 'New Accessions' with your Trello list name:
-
-    ```
-    #Option 1: Get Trello List by ID
-    #target_list = trello_client.get_list('[Trello List ID]')
+ Replace 'New Accessions' with your Trello list name:
+    
+ ```
+ #Option 1: Get Trello List by ID
+ #target_list = trello_client.get_list('[Trello List ID]')
         
-    #Option 2: Get Trello List by Name
-    for trello_list in target_board.list_lists():
-        if trello_list.name == 'New Accessions': #list name
-            target_list = trello_list
-            print("Target List: " + target_list.name)
-    ```
+ #Option 2: Get Trello List by Name
+ for trello_list in target_board.list_lists():
+     if trello_list.name == 'New Accessions': #list name
+         target_list = trello_list
+         print("Target List: " + target_list.name)
+ ```
     
 #### Modify aspace-to-trello.py to supply your ArchivesSpace backend URL, username, and password as well as the ID of your target repository (e.g. /repositories/2/accessions/). Your ArchivesSpace user must have permission to view accession records in this repository.
 
