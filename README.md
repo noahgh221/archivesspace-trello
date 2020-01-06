@@ -30,13 +30,13 @@ Script is written in Python 3 and uses [ArchivesSnake](https://github.com/archiv
 10. Set up a cron job to execute the script every 24 hours at a specified time. Configure email notifications if you wan't to keep tabs on the script.
 
 
-## Some screenshots:
+## Some screenshots
 Add some Trello card screenshots
 
 Add snippet of command line output
 
 
-## Things to consider:
+## Things to consider
 - Trello cards are only a snapshot of ArchivesSpace data (nothing is synced). Updating Trello cards has no effect in ArchivesSpace and vice versa.
 - Trello cards only contain a subset of metadata in an accession record (if you're feeling ambitious, you can modify the script to add more fields)
 
