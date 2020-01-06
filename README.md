@@ -23,16 +23,21 @@ Script is written in Python 3 and uses [ArchivesSnake](https://github.com/archiv
 
 7. Modify aspace-to-trello.py to supply your ArchivesSpace backend URL, username, and password as well as the ID of your target repository (e.g. /repositories/2/accessions/). Your ArchivesSpace user must have permission to view accession records in this repository.
 
-8. Determine how often you want to search for new accessions and create Trello cards. The script currently assumes you will run the script every 24 hours.
+8. Modify aspace-to-trello.py to assign custom labels to Trello cards or to assign cards to Trello board members (see code comments for details). To assign labels to cards, label values must already exist in the Trello board.
 
-9. Cron job stuff coming soon...
+9. Determine how often you want to search for new accessions and create Trello cards for them. The script is currently configured to look for accessions created in the last 24 hours.
+
+10. Set up a cron job to execute the script every 24 hours at a specified time. Configure email notifications if you wan't to keep tabs on the script.
+
+
+## Some screenshots:
+Add some Trello card screenshots
+
+Add snippet of command line output
 
 
 ## Things to consider:
 - Trello cards are only a snapshot of ArchivesSpace data (nothing is synced). Updating Trello cards has no effect in ArchivesSpace and vice versa.
 - Trello cards only contain a subset of metadata in an accession record (if you're feeling ambitious, you can modify the script to add more fields)
 
-## Screenshots:
-Add some Trello card screenshots
 
-Add snippet of command line output
