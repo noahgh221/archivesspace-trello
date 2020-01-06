@@ -9,26 +9,84 @@ Script is written in Python 3 and uses [ArchivesSnake](https://github.com/archiv
 - You're lazy, and don't want to copy/paste info about new accessions from ASpace into Trello.
 
 ## Getting Started 
-1. Download the python script (aspace-to-trello.py). Ideally, you'll want to save the script to a location that has Python installed and can also execute cron jobs. I run the script from a Linux virtual machine where I've installed [Anaconda](https://www.anaconda.com/distribution/).
+#### Download the python script (aspace-to-trello.py). Ideally, you'll want to save the script to a location that has Python installed and can also execute cron jobs. I run the script from a Linux virtual machine where I've installed [Anaconda](https://www.anaconda.com/distribution/).
 
-2. [Install ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake#installation) (assuming you already have Python installed)
+#### [Install ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake#installation) (assuming you already have Python installed)
 
-3. [Install py-trello](https://pypi.org/project/py-trello/)
+#### [Install py-trello](https://pypi.org/project/py-trello/)
 
-4. Create a Trello account (if you don't have one), and get your Trello API key, API secret, and token.  See: https://trello.com/app-key
+#### Create a Trello account (if you don't have one), and get your Trello API key, API secret, and token.  See: https://trello.com/app-key
 
-5. Create a Trello board (if you don't have one) and a Trello list to hold the cards that the script will create.
+#### Create a Trello board (if you don't have one) and a Trello list to hold the cards that the script will create.
 
-6. Modify aspace-to-trello.py to supply your Trello API credentials, Trello board name, and Trello list name. Altenatively, you can supply the board ID and list IDs (see comments in code for "Option 1").
+#### Modify aspace-to-trello.py to supply your Trello API credentials, Trello board name, and Trello list name. Altenatively, you can supply the board ID and list IDs (see comments in code for "Option 1")
 
-7. Modify aspace-to-trello.py to supply your ArchivesSpace backend URL, username, and password as well as the ID of your target repository (e.g. /repositories/2/accessions/). Your ArchivesSpace user must have permission to view accession records in this repository.
+Replace brackets with your Trello API credentials: 
+  ```
+    #Authenticate with Trello (change credentials to your own)
+    trello_client = TrelloClient(
+        api_key='[Trello API Key]',
+        api_secret='[Trello API Secret]',
+        token='[Trello API Token]',
+    )
+  ```
 
-8. Modify aspace-to-trello.py to assign custom labels to Trello cards or to assign cards to Trello board members (see code comments for details). To assign labels to cards, label values must already exist in the Trello board.
+Replace brackets with your Trello Board name (string must match exactly):
+  
+  ```
+  #Option 1: Get Trello Board by ID
+  #target_board = trello_client.get_board('[Trello Board ID]')
 
-9. Determine how often you want to search for new accessions and create Trello cards for them. The script is currently configured to look for accessions created in the last 24 hours.
+  #Option2: Get Trello Board by Name
+  trello_boards = trello_client.list_boards()
+  for board in trello_boards:
+      if board.name == '[Trello Board Name]': #board name lookup
+          target_board = board
+          print ("Target Board: " + target_board.name)
+  ```
+ 
+Replace 'New Accessions' with your Trello list name:
 
-10. Set up a cron job to execute the script every 24 hours at a specified time. Configure email notifications if you wan't to keep tabs on the script.
+    ```
+    #Option 1: Get Trello List by ID
+    #target_list = trello_client.get_list('[Trello List ID]')
+        
+    #Option 2: Get Trello List by Name
+    for trello_list in target_board.list_lists():
+        if trello_list.name == 'New Accessions': #list name
+            target_list = trello_list
+            print("Target List: " + target_list.name)
+    ```
+    
+#### Modify aspace-to-trello.py to supply your ArchivesSpace backend URL, username, and password as well as the ID of your target repository (e.g. /repositories/2/accessions/). Your ArchivesSpace user must have permission to view accession records in this repository.
 
+Replace brackets with ASpace API URL, username, and password:
+  ```
+  #ASNAKE
+  #Log Into ASpace and set repo
+  aspace_client = ASnakeClient(baseurl="[ArchivesSpace backend API URL]",
+                        username="[AS Username]",
+                        password="[AS Password]")
+  aspace_client.authorize()
+  #Set Target Repository
+  ```
+
+Provide ID for target ASpace repository (change 2 in snippet below to your target repository ID):
+  ```
+  repo = aspace_client.get("repositories/2").json()
+  print(repo['name'])
+  accessions_list = aspace_client.get("repositories/2/accessions?all_ids=true").json()
+  ```
+
+#### Modify aspace-to-trello.py to assign custom labels to Trello cards or to assign cards to Trello board members (see code comments for details). To assign labels to cards, label values must already exist in the Trello board.
+
+#### Determine how often you want to search for new accessions and create Trello cards for them. The script is currently configured to look for accessions created in the last 24 hours:
+```
+#Set time interval here (to get accessions created in last 24 hours)
+current_time_minus_day = current_time - timedelta(hours=24)
+```
+
+#### Set up a cron job to execute the script every 24 hours at a specified time. Configure email notifications if you wan't to keep tabs on the script.
 
 ## Some screenshots
 Add some Trello card screenshots
