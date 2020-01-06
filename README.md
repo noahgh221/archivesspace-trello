@@ -11,9 +11,9 @@ Script is written in Python 3 and uses [ArchivesSnake](https://github.com/archiv
 ## Getting Started 
 1. Download the python script (aspace-to-trello.py). Ideally, you'll want to save the script to a location that has Python installed and can also execute cron jobs. I run the script from a Linux virtual machine where I've installed [Anaconda](https://www.anaconda.com/distribution/).
 
-2. (Install ArchivesSnace)[https://github.com/archivesspace-labs/ArchivesSnake#installation] (assuming you already have Python installed)
+2. [Install ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake#installation) (assuming you already have Python installed)
 
-3. (Install py-trello)[https://pypi.org/project/py-trello/]
+3. [Install py-trello](https://pypi.org/project/py-trello/)
 
 4. Create a Trello account (if you don't have one), and get your Trello API key, API secret, and token.  See: https://trello.com/app-key
 
