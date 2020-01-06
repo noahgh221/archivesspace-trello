@@ -94,7 +94,7 @@ current_time_minus_day = current_time - timedelta(hours=24)
 ![Sample Trello List](/screenshots/trello_card_list.JPG)
 
 #### Sample Trello Card created by aspace-to-trello.py:
-![Sample Trello Card](/screenshots/trello_card_example.JPG)
+![Sample Trello Card](/screenshots/trello_card_example2.JPG)
 
 #### Sample script output:
 ```
