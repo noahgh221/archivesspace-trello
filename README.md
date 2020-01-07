@@ -98,7 +98,7 @@ Add a line in the crontab file with an instruction to execute aspace-to-trello.p
 ```
 MAILTO=your.email@email.edu
 # Every Day at 01:00 AM
-0 1 * * * python3 /home/user/aspace_trello_integration.py
+0 1 * * * python3 /home/user/aspace-to-trello.py
 ```
 
 ## Some screenshots
