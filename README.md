@@ -80,6 +80,8 @@ Provide ID for target ASpace repository (change 2 in snippet below to your targe
 
 #### Modify aspace-to-trello.py to assign custom labels to Trello cards or to assign cards to Trello board members (see code comments for details). To assign labels to cards, label values must already exist in the Trello board.
 
+As written, the script applies custom Trello card labels based on related values in a user defined field in Duke's ASpace instance. These labels mostly correspond to collecting areas. At Duke, certain processors are reponsible for processing collections in certain collecting areas, so Trello cards can be assigned to Trello board members based on collecting area values in ASpace accession records. 
+
 #### Determine how often you want to search ArchivesSpace for new accessions and then create Trello cards for them. The script is currently configured to look for accessions created in the last 24 hours:
 ```
 #Set time interval here (to get accessions created in last 24 hours)
