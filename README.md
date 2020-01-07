@@ -80,13 +80,26 @@ Provide ID for target ASpace repository (change 2 in snippet below to your targe
 
 #### Modify aspace-to-trello.py to assign custom labels to Trello cards or to assign cards to Trello board members (see code comments for details). To assign labels to cards, label values must already exist in the Trello board.
 
-#### Determine how often you want to search for new accessions and create Trello cards for them. The script is currently configured to look for accessions created in the last 24 hours:
+#### Determine how often you want to search ArchivesSpace for new accessions and then create Trello cards for them. The script is currently configured to look for accessions created in the last 24 hours:
 ```
 #Set time interval here (to get accessions created in last 24 hours)
 current_time_minus_day = current_time - timedelta(hours=24)
 ```
 
-#### Set up a cron job to execute the script every 24 hours at a specified time. Configure email notifications if you wan't to keep tabs on the script.
+#### Create a cron job to execute the script every 24 hours at a specified time. Configure email notifications if you wan't to keep tabs on the script.
+
+If using Linux, create a new crontab file using the command below:
+```
+~$ crontab -e
+```
+
+Add a line in the crontab file with an instruction to execute aspace-to-trello.py at some interval. Save the file. In the example below, the script will execute every day at 01:00 AM and the output will be emailed to the specified email address 
+
+```
+MAILTO=your.email@email.edu
+# Every Day at 01:00 AM
+0 1 * * * python3 /home/user/aspace_trello_integration.py
+```
 
 ## Some screenshots
 
