@@ -1,5 +1,5 @@
 # archivesspace-trello
-aspace-to-trello.py creates Trello cards based on ArchivesSpace accession records. It is designed to be run as a cron job to identify recently updated accession records and then create Trello cards for them.
+aspace-to-trello.py creates Trello cards based on ArchivesSpace accession records. It is designed to be run as a cron job to identify recently created accession records in ArchivesSpace and then create Trello cards for them.
 
 Script is written in Python 3 and uses [ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake) and [py-trello](https://github.com/sarumont/py-trello).
 
@@ -9,13 +9,13 @@ Script is written in Python 3 and uses [ArchivesSnake](https://github.com/archiv
 - You're lazy, and don't want to copy/paste info about new accessions from ASpace into Trello.
 
 ## Getting Started 
-#### Download the python script (aspace-to-trello.py). Ideally, you'll want to save the script to a location that has Python installed and can also execute cron jobs. I run the script from a Linux virtual machine where I've installed [Anaconda](https://www.anaconda.com/distribution/).
+#### Download the python script (aspace-to-trello.py). Ideally, you'll want to save the script to a location that has Python installed and can also execute cron jobs. For example, I run the script from a Linux virtual machine where I've installed [Anaconda](https://www.anaconda.com/distribution/).
 
 #### [Install ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake#installation) (assuming you already have Python installed)
 
 #### [Install py-trello](https://pypi.org/project/py-trello/)
 
-#### Create a Trello account (if you don't have one), and get your Trello API key, API secret, and token.  See: https://trello.com/app-key
+#### Create a Trello account (if you don't have one), and get your Trello API key, API secret, and token. See: https://trello.com/app-key
 
 #### Create a Trello board (if you don't have one) and a Trello list to hold the cards that the script will create.
 
@@ -144,6 +144,6 @@ nh48@vm:~$
 ## Things to consider
 - Trello cards are only a snapshot of ArchivesSpace data (nothing is synced). Updating Trello cards has no effect in ArchivesSpace and vice versa.
 - Trello cards only contain a subset of metadata in an accession record (if you're feeling ambitious, you can modify the script to add more fields)
-- As written, script only examines last 20 accession records created in ASpace and then determines which of those 20 were created in the last 24 hours.
+- As written, the script only examines the last 20 accession records created in ASpace and then determines which of those 20 were created in the last 24 hours. If you regularly create more than 20 accessions per day, you'll want to modify the script.
 
 
