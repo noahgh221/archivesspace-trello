@@ -1,5 +1,5 @@
 # archivesspace-trello
-aspace-to-trello.py creates Trello cards based on ArchivesSpace accession records. It is designed to be run as a cron job to identify recently created accession records in ArchivesSpace and then create Trello cards for them.
+aspace-to-trello.py creates Trello cards based on ArchivesSpace accession records. The script is designed to be run as a cron job and when executed it will identify recently created accession records in ArchivesSpace and then create Trello cards for them on a specified Trello board and list.
 
 Script is written in Python 3 and uses [ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake) and [py-trello](https://github.com/sarumont/py-trello).
 
