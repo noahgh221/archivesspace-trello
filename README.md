@@ -142,7 +142,7 @@ nh48@vm:~$
 ```
 
 ## Things to consider
-- Trello cards are only a snapshot of ArchivesSpace data (nothing is synced). Updating Trello cards has no effect in ArchivesSpace and vice versa.
+- Trello cards are only a snapshot of ArchivesSpace data (nothing is synced). This is a very loose integration. Updating Trello cards has no effect on ArchivesSpace data and vice versa.
 - Trello cards only contain a subset of metadata in an accession record (if you're feeling ambitious, you can modify the script to add more fields)
 - As written, the script only examines the last 20 accession records created in ASpace and then determines which of those 20 were created in the last 24 hours. If you regularly create more than 20 accessions per day, you'll want to modify the script.
 
