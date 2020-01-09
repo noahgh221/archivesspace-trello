@@ -24,7 +24,7 @@ See: https://trello.com/app-key
 
 ### Supply your Trello API credentials:
 
-Modify aspace-to-trello.py to supply your Trello API credentials, a Trello board name, and a Trello list name. Altenatively, you can supply the board ID and list IDs (see comments in code for "Option 1")
+Modify aspace-to-trello.py to supply your Trello API credentials, a Trello board name, and a Trello list name. Altenatively, you can supply the board ID and list IDs (see comments in code for "Option 1"). To get Trello board and list IDs, you can add .json to the end of any Trello URL and poke around for the IDs.
 
 Replace brackets with your Trello API credentials: 
   ```
