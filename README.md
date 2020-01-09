@@ -9,17 +9,22 @@ Script is written in Python 3 and uses [ArchivesSnake](https://github.com/archiv
 - You're lazy, and don't want to copy/paste info about new accessions from ASpace into Trello.
 
 ## Getting Started 
-#### Download the python script (aspace-to-trello.py). Ideally, you'll want to save the script to a location that has Python installed and can also execute cron jobs. For example, I run the script from a Linux virtual machine where I've installed [Anaconda](https://www.anaconda.com/distribution/).
+### Download the python script (aspace-to-trello.py): 
+Ideally, you'll want to save the script to a location that has Python installed and can also execute cron jobs. For example, I run the script from a Linux virtual machine where I've installed [Anaconda](https://www.anaconda.com/distribution/).
 
-#### [Install ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake#installation) (assuming you already have Python installed)
+### [Install ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake#installation) (assuming you already have Python installed)
 
-#### [Install py-trello](https://pypi.org/project/py-trello/)
+### [Install py-trello](https://pypi.org/project/py-trello/)
 
-#### Create a Trello account (if you don't have one), and get your Trello API key, API secret, and token. See: https://trello.com/app-key
+### Create a Trello account (if you don't have one), and get your Trello API key, API secret, and token: 
 
-#### Create a Trello board (if you don't have one) and a Trello list to hold the cards that the script will create.
+See: https://trello.com/app-key
 
-#### Modify aspace-to-trello.py to supply your Trello API credentials, Trello board name, and Trello list name. Altenatively, you can supply the board ID and list IDs (see comments in code for "Option 1")
+### Create a Trello board and a Trello list to hold the cards that the script will create:
+
+### Supply your Trello API credentials:
+
+Modify aspace-to-trello.py to supply your Trello API credentials, a Trello board name, and a Trello list name. Altenatively, you can supply the board ID and list IDs (see comments in code for "Option 1")
 
 Replace brackets with your Trello API credentials: 
   ```
@@ -58,7 +63,8 @@ Replace brackets with your Trello Board name (string must match exactly):
          print("Target List: " + target_list.name)
  ```
     
-#### Modify aspace-to-trello.py to supply your ArchivesSpace backend URL, username, and password as well as the ID of your target repository (e.g. /repositories/2/accessions/). Your ArchivesSpace user must have permission to view accession records in this repository.
+### Authenticate with your ArchivesSpace instance:
+Modify aspace-to-trello.py to supply your ArchivesSpace backend URL, username, and password as well as the ID of your target repository (e.g. /repositories/2/accessions/). Your ArchivesSpace user must have permission to view accession records in this repository.
 
 Replace brackets with ASpace API URL, username, and password:
   ```
@@ -78,17 +84,20 @@ Provide ID for target ASpace repository (change 2 in snippet below to your targe
   accessions_list = aspace_client.get("repositories/2/accessions?all_ids=true").json()
   ```
 
-#### Modify aspace-to-trello.py to assign custom labels to Trello cards or to assign cards to Trello board members (see code comments for details). To assign labels to cards, label values must already exist in the Trello board.
+### Assigning labels and members to Trello cards:
+Modify aspace-to-trello.py to assign custom labels to Trello cards or to assign cards to Trello board members (see code comments for details). To assign labels to cards, label values must already exist in the Trello board.
 
 As written, the script applies custom Trello card labels based on related values in a user defined field in Duke's ASpace instance. These labels mostly correspond to collecting areas (e.g. economics, university archives, etc.). At Duke, certain processors are reponsible for processing collections in certain collecting areas, so Trello cards can be assigned to Trello board members based on the collecting area values stored in ASpace accession records. This is all very Duke-specific. You'll probably want to modify the behavior or comment out these sections. 
 
-#### Determine how often you want to search ArchivesSpace for new accessions and then create Trello cards for them. The script is currently configured to look for accessions created in the last 24 hours:
+### Setting a time interval:
+Determine how often you want to search ArchivesSpace for new accessions and then create Trello cards for them. The script is currently configured to look for accessions created in the last 24 hours:
 ```
 #Set time interval here (to get accessions created in last 24 hours)
 current_time_minus_day = current_time - timedelta(hours=24)
 ```
 
-#### Create a cron job to execute the script every 24 hours at a specified time. Configure email notifications if you wan't to keep tabs on the script.
+### Create a cron job:
+Create a cron job to execute the script every 24 hours at a specified time. Configure email notifications if you wan't to keep tabs on the script.
 
 If using Linux, create a new crontab file using the command below:
 ```
@@ -105,13 +114,13 @@ MAILTO=your.email@email.edu
 
 ## Some screenshots
 
-#### Sample Trello List:
+### Sample Trello List:
 ![Sample Trello List](/screenshots/trello_card_list.JPG)
 
-#### Sample Trello Card created by aspace-to-trello.py:
+### Sample Trello Card created by aspace-to-trello.py:
 ![Sample Trello Card](/screenshots/trello_card_example2.JPG)
 
-#### Sample script output:
+### Sample script output:
 ```
 nh48@vm:~$ python aspace-to-trello.py
 Target Board: Accession_to_Trello_test
@@ -143,7 +152,7 @@ All Done!
 nh48@vm:~$
 ```
 
-## Things to consider
+## Things to consider:
 - Trello cards are only a snapshot of ArchivesSpace data (nothing is synced). This is a very loose integration. Updating Trello cards has no effect on ArchivesSpace data and vice versa.
 - Trello cards only contain a subset of metadata in an accession record (if you're feeling ambitious, you can modify the script to add more fields)
 - As written, the script only examines the last 20 accession records created in ASpace and then determines which of those 20 were created in the last 24 hours. If you regularly create more than 20 accessions per day, you'll want to modify the script.
