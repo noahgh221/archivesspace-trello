@@ -87,7 +87,7 @@ Provide ID for target ASpace repository (change 2 in snippet below to your targe
 ### Assigning labels and members to Trello cards:
 Modify aspace-to-trello.py to assign custom labels to Trello cards or to assign cards to Trello board members (see code comments for details). To assign labels to cards, label values must already exist in the Trello board.
 
-As written, the script applies custom Trello card labels based on related values in a user defined field in Duke's ASpace instance. These labels mostly correspond to collecting areas (e.g. economics, university archives, etc.). At Duke, certain processors are reponsible for processing collections in certain collecting areas, so Trello cards can be assigned to Trello board members based on the collecting area values stored in ASpace accession records. This is all very Duke-specific. You'll probably want to modify the behavior or comment out these sections. 
+As written, the script applies custom Trello card labels based on related values in a user defined field in Duke's ASpace instance. These labels mostly correspond to collecting areas (e.g. economics, university archives, etc.). At Duke, certain processors are reponsible for processing collections in certain collecting areas, so Trello cards can be assigned to Trello board members (staff) based on the collecting area values stored in ASpace accession records. This is all very Duke-specific. You'll probably want to modify the behavior or comment out these sections. 
 
 ### Setting a time interval:
 Determine how often you want to search ArchivesSpace for new accessions and then create Trello cards for them. The script is currently configured to look for accessions created in the last 24 hours:
@@ -99,7 +99,7 @@ current_time_minus_day = current_time - timedelta(hours=24)
 ### Create a cron job:
 Create a cron job to execute the script every 24 hours at a specified time. Configure email notifications if you wan't to keep tabs on the script.
 
-If using Linux, create a new crontab file using the command below:
+On Linux, create a new crontab file using the command below:
 ```
 ~$ crontab -e
 ```
