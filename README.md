@@ -1,5 +1,5 @@
 # archivesspace-trello
-aspace-to-trello.py creates Trello cards based on ArchivesSpace accession records. The script is designed to be run as a cron job. When executed it will identify recently created accession records in ArchivesSpace and then create Trello cards for them on a specified Trello board and list.
+aspace-to-trello.py creates Trello cards based on ArchivesSpace accession records. The script is designed to be run as a scheduled cron job. When executed, the script will first query the ArchivesSpace API to identify recently created accession records and then it will create Trello cards for those accession records on a specified Trello board and list.
 
 Script is written in Python 3 and uses [ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake) and [py-trello](https://github.com/sarumont/py-trello).
 
@@ -10,7 +10,7 @@ Script is written in Python 3 and uses [ArchivesSnake](https://github.com/archiv
 
 ## Getting Started 
 ### Download the python script (aspace-to-trello.py): 
-Ideally, you'll want to save the script to a location that has Python installed and can also execute cron jobs. For example, I run the script from a Linux virtual machine where I've installed [Anaconda](https://www.anaconda.com/distribution/).
+Ideally, you'll want to save the script to a location where you have Python installed and can also execute cron jobs. For example, I run the script from a Linux virtual machine where I've installed the [Anaconda](https://www.anaconda.com/distribution/) distribution.
 
 ### [Install ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake#installation) (assuming you already have Python installed)
 
@@ -22,9 +22,11 @@ See: https://trello.com/app-key
 
 ### Create a Trello board and a Trello list to hold the cards that the script will create:
 
+Or, if you already have a Trello account, board, and list, skip to the step below. 
+
 ### Supply your Trello API credentials:
 
-Modify aspace-to-trello.py to supply your Trello API credentials, a Trello board name, and a Trello list name. Altenatively, you can supply the board ID and list IDs (see comments in code for "Option 1"). To get Trello board and list IDs, you can add .json to the end of any Trello URL and poke around for the IDs.
+Modify aspace-to-trello.py to supply your Trello API credentials, a Trello board name, and a Trello list name. Altenatively, you can supply the board ID and list IDs (see comments in code for "Option 1"). To get Trello board and list IDs, you can add .json to the end of any Trello URL and poke around in the JSON to locate the IDs.
 
 Replace brackets with your Trello API credentials: 
   ```
@@ -77,7 +79,7 @@ Replace brackets with ASpace API URL, username, and password:
   #Set Target Repository
   ```
 
-Provide ID for target ASpace repository (change 2 in snippet below to your target repository ID):
+Provide the ID for your target ASpace repository (e.g. change /2 in snippet below to the ID of your target repository):
   ```
   repo = aspace_client.get("repositories/2").json()
   print(repo['name'])
@@ -90,14 +92,14 @@ Modify aspace-to-trello.py to assign custom labels to Trello cards or to assign 
 As written, the script applies custom Trello card labels based on related values in a user defined field in Duke's ASpace instance. These labels mostly correspond to collecting areas (e.g. economics, university archives, etc.). At Duke, certain processors are reponsible for processing collections in certain collecting areas, so Trello cards can be assigned to Trello board members (staff) based on the collecting area values stored in ASpace accession records. This is all very Duke-specific. You'll probably want to modify the behavior or comment out these sections. 
 
 ### Setting a time interval:
-Determine how often you want to search ArchivesSpace for new accessions and then create Trello cards for them. The script is currently configured to look for accessions created in the last 24 hours:
+Determine how often you want to search ArchivesSpace for new accessions and auto-generate Trello cards. The script is currently configured to run every 24 hours and look for accessions created in the last 24 hours:
 ```
 #Set time interval here (to get accessions created in last 24 hours)
 current_time_minus_day = current_time - timedelta(hours=24)
 ```
 
 ### Create a cron job:
-Create a cron job to execute the script every 24 hours at a specified time. Configure email notifications if you wan't to keep tabs on the script.
+Create a cron job to execute the script every 24 hours at a specified time. Configure email notifications if you wan't to receive emails about the script's activity and to make sure it's still executing as expected.
 
 On Linux, create a new crontab file using the command below:
 ```
@@ -154,7 +156,7 @@ nh48@vm:~$
 
 ## Things to consider:
 - Trello cards are only a snapshot of ArchivesSpace data (nothing is synced). This is a very loose integration. Updating Trello cards has no effect on ArchivesSpace data and vice versa.
-- Trello cards only contain a subset of metadata in an accession record (if you're feeling ambitious, you can modify the script to add more fields)
-- As written, the script only examines the last 20 accession records created in ASpace and then determines which of those 20 were created in the last 24 hours. If you regularly create more than 20 accessions per day, you'll want to modify the script.
+- Trello cards only contain a subset of metadata in an accession record (if you're feeling ambitious, you can modify the script to add more ArchivesSpace fields to your Trello cards or otherwise manipulate the ASpace data)
+- As written, the script only examines the last 20 accession records created in ASpace and then determines which of those 20 accessions were created in the last 24 hours. If you regularly create more than 20 accessions per day, stop collecting as much stuff. If you can't, you'll want to modify the script to account for more accessions records per day.
 
-
+Please submit a Github Issue if you have any questions about the script or these instructions.
