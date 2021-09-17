@@ -111,7 +111,7 @@ Add a line in the crontab file with an instruction to execute aspace-to-trello.p
 ```
 MAILTO=your.email@email.edu
 # Every Day at 01:00 AM
-0 1 * * * python3 /home/user/aspace-to-trello.py
+0 1 * * * python3 /home/[user]/aspace-to-trello.py
 ```
 
 ## Some screenshots
@@ -157,6 +157,6 @@ nh48@vm:~$
 ## Things to consider:
 - Trello cards are only a snapshot of ArchivesSpace data (nothing is synced). This is a very loose integration. Updating Trello cards has no effect on ArchivesSpace data and vice versa.
 - Trello cards only contain a subset of metadata in an accession record (if you're feeling ambitious, you can modify the script to add more ArchivesSpace fields to your Trello cards or otherwise manipulate the ASpace data)
-- As written, the script only examines the last 20 accession records created in ASpace and then determines which of those 20 accessions were created in the last 24 hours. If you regularly create more than 20 accessions per day, stop collecting as much stuff. If you can't, you'll want to modify the script to account for more accessions records per day.
+- As written, the script only examines the last 20 accession records created in ASpace and then determines which of those 20 accessions were created in the last 24 hours. If you regularly create more than 20 accessions per day, stop collecting so much stuff. If you can't, you'll want to modify the script to account for more accessions records per day.
 
 Please submit a Github Issue if you have any questions about the script or these instructions.
