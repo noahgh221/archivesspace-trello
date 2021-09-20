@@ -66,7 +66,7 @@ Replace brackets with your Trello Board name (string must match exactly):
  ```
     
 ### Authenticate with your ArchivesSpace instance:
-Modify aspace-to-trello.py to supply your ArchivesSpace backend URL, username, and password as well as the ID of your target repository (e.g. /repositories/2/accessions/). Your ArchivesSpace user must have permission to view accession records in this repository.
+Modify aspace_to_trello.py to supply your ArchivesSpace backend URL, username, and password as well as the ID of your target repository (e.g. /repositories/2/accessions/). Your ArchivesSpace user must have permission to view accession records in this repository.
 
 Replace brackets with ASpace API URL, username, and password:
   ```
@@ -87,7 +87,7 @@ Provide the ID for your target ASpace repository (e.g. change /2 in snippet belo
   ```
 
 ### Assigning labels and members to Trello cards:
-Modify aspace-to-trello.py to assign custom labels to Trello cards or to assign cards to Trello board members (see code comments for details). To assign labels to cards, label values must already exist in the Trello board.
+Modify aspace_to_trello.py to assign custom labels to Trello cards or to assign cards to Trello board members (see code comments for details). To assign labels to cards, label values must already exist in the Trello board.
 
 As written, the script applies custom Trello card labels based on related values in a user defined field in Duke's ASpace instance. These labels mostly correspond to collecting areas (e.g. economics, university archives, etc.). At Duke, certain processors are reponsible for processing collections in certain collecting areas, so Trello cards can be assigned to Trello board members (staff) based on the collecting area values stored in ASpace accession records. This is all very Duke-specific. You'll probably want to modify the behavior or comment out these sections. 
 
@@ -106,7 +106,7 @@ On Linux, create a new crontab file using the command below:
 ~$ crontab -e
 ```
 
-Add a line in the crontab file with an instruction to execute aspace-to-trello.py at some interval. Save the file. In the example below, the script will execute every day at 01:00 AM and the output will be emailed to the specified email address 
+Add a line in the crontab file with an instruction to execute aspace_to_trello.py at some interval. Save the file. In the example below, the script will execute every day at 01:00 AM and the output will be emailed to the specified email address 
 
 ```
 MAILTO=your.email@email.edu
