@@ -1,5 +1,5 @@
 # archivesspace-trello
-aspace-to-trello.py creates Trello cards based on ArchivesSpace accession records. The script is designed to be run as a scheduled cron job. When executed, the script will first query the ArchivesSpace API to identify recently created accession records and then it will create Trello cards for those accession records on a specified Trello board and list.
+aspace_to_trello.py creates Trello cards based on ArchivesSpace accession records. The script is designed to be run as a scheduled cron job. When executed, the script will first query the ArchivesSpace API to identify recently created accession records and then it will create Trello cards for those accession records on a specified Trello board and list.
 
 Script is written in Python 3 and uses [ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake) and [py-trello](https://github.com/sarumont/py-trello).
 
@@ -9,7 +9,7 @@ Script is written in Python 3 and uses [ArchivesSnake](https://github.com/archiv
 - You're lazy, and don't want to copy/paste info about new accessions from ASpace into Trello.
 
 ## Getting Started 
-### Download the python script (aspace-to-trello.py): 
+### Download the python script (aspace_to_trello.py): 
 Ideally, you'll want to save the script to a location where you have Python installed and can also execute cron jobs. For example, I run the script from a Linux virtual machine where I've installed the [Anaconda](https://www.anaconda.com/distribution/) distribution.
 
 ### [Install ArchivesSnake](https://github.com/archivesspace-labs/ArchivesSnake#installation) (assuming you already have Python installed)
@@ -26,7 +26,7 @@ Or, if you already have a Trello account, board, and list, skip to the step belo
 
 ### Supply your Trello API credentials:
 
-Modify aspace-to-trello.py to supply your Trello API credentials, a Trello board name, and a Trello list name. Altenatively, you can supply the board ID and list IDs (see comments in code for "Option 1"). To get Trello board and list IDs, you can add .json to the end of any Trello URL and poke around in the JSON to locate the IDs.
+Modify aspace_to_trello.py to supply your Trello API credentials, a Trello board name, and a Trello list name. Altenatively, you can supply the board ID and list IDs (see comments in code for "Option 1"). To get Trello board and list IDs, you can add .json to the end of any Trello URL and poke around in the JSON to locate the IDs.
 
 Replace brackets with your Trello API credentials: 
   ```
@@ -111,7 +111,7 @@ Add a line in the crontab file with an instruction to execute aspace-to-trello.p
 ```
 MAILTO=your.email@email.edu
 # Every Day at 01:00 AM
-0 1 * * * python3 /home/[user]/aspace-to-trello.py
+0 1 * * * python3 /home/[user]/aspace_to_trello.py
 ```
 
 ## Some screenshots
@@ -124,7 +124,7 @@ MAILTO=your.email@email.edu
 
 ### Sample script output:
 ```
-nh48@vm:~$ python aspace-to-trello.py
+nh48@vm:~$ python aspace_to_trello.py
 Target Board: Accession_to_Trello_test
 Target List: New Accessions
 Getting all Accessions created since: 2020-01-05T21:45:27.457600
