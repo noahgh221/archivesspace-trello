@@ -1,6 +1,8 @@
 from asnake.client import ASnakeClient
 from datetime import datetime, timedelta
 from trello import TrelloClient
+import trello
+import json
 
 #Script uses ArchivesSpace API and Trello API to lookup recent accession records in ASpace and create new Trello cards for them.
 #Set up a cron job to execute the script at some interval (currently written to execute every day)
@@ -12,6 +14,62 @@ from trello import TrelloClient
 
 #Trello API Docs: https://developers.trello.com/reference#introduction
 
+
+# "Monkey patching" to get this to work while we wait for library update
+# from: https://github.com/sarumont/py-trello/issues/373
+def patched_fetch_json(self,
+                       uri_path,
+                       http_method='GET',
+                       headers=None,
+                       query_params=None,
+                       post_args=None,
+                       files=None):
+    """ Fetch some JSON from Trello """
+
+    # explicit values here to avoid mutable default values
+    if headers is None:
+        headers = {}
+    if query_params is None:
+        query_params = {}
+    if post_args is None:
+        post_args = {}
+
+    # if files specified, we don't want any data
+    data = None
+    if files is None and post_args != {}:
+        data = json.dumps(post_args)
+
+    # set content type and accept headers to handle JSON
+    if http_method in ("POST", "PUT", "DELETE") and not files:
+        headers['Content-Type'] = 'application/json; charset=utf-8'
+
+    headers['Accept'] = 'application/json'
+
+    # construct the full URL without query parameters
+    if uri_path[0] == '/':
+        uri_path = uri_path[1:]
+    url = 'https://api.trello.com/1/%s' % uri_path
+
+    if self.oauth is None:
+        query_params['key'] = self.api_key
+        query_params['token'] = self.api_secret
+
+    # perform the HTTP requests, if possible uses OAuth authentication
+    response = self.http_service.request(http_method, url, params=query_params,
+                                            headers=headers, data=data,
+                                            auth=self.oauth, files=files,
+                                            proxies=self.proxies)
+
+    if response.status_code == 401:
+        raise trello.Unauthorized("%s at %s" % (response.text, url), response)
+    if response.status_code != 200:
+        raise trello.ResourceUnavailable("%s at %s" % (response.text, url), response)
+
+    return response.json()
+
+
+trello.TrelloClient.fetch_json = patched_fetch_json
+
 #Authenticate with Trello (change credentials to your own)
 trello_client = TrelloClient(
     api_key='[Trello API Key]',
@@ -19,6 +77,7 @@ trello_client = TrelloClient(
     token='[Trello API Token]',
     #token_secret='your-oauth-token-secret'
 )
+
 
 #Option 1: Get Trello Board by ID
 #target_board = trello_client.get_board('[Trello Board ID]')
@@ -101,7 +160,7 @@ for label in board_labels:
 
 #Option 1: Get Trello List by ID
 #target_list = trello_client.get_list('[Trello List ID]')
-        
+
 #Option 2: Get Trello List by Name
 for trello_list in target_board.list_lists():
     if trello_list.name == 'New Accessions': #board name
@@ -128,7 +187,7 @@ print("Getting all Accessions created since: " + str(current_time_minus_day))
 #Log Into ASpace and set repo to RL
 aspace_client = ASnakeClient(baseurl="[ArchivesSpace backend API URL]",
                       username="[AS Username]",
-                      password="AS Password]")
+                      password="[AS Password]")
 aspace_client.authorize()
 #Set Target Repository
 repo = aspace_client.get("repositories/2").json()
@@ -138,7 +197,7 @@ accessions_list = aspace_client.get("repositories/2/accessions?all_ids=true").js
 #Sort accessions by ASpace ID (e.g. repositories/2/accessions/1234)
 accessions_sorted = sorted(accessions_list)
 
-#Just get the last 20 created accessions in ASpace (based on IDs, not create time) 
+#Just get the last 20 created accessions in ASpace (based on IDs, not create time)
 #assuming we won't create more than 20 accessions in time interval between cron jobs
 #get last 20 accessions in list (most recent accession will be last in list)
 last_20_accessions = accessions_sorted[-20:]
@@ -146,60 +205,46 @@ last_20_accessions = accessions_sorted[-20:]
 print("Examining last 20 accessions created in ASpace...")
 
 for accession in last_20_accessions:
-      
-    accession_json = aspace_client.get("repositories/2/accessions/" + str(accession)).json() 
-    
+    accession_json = aspace_client.get("repositories/2/accessions/" + str(accession)).json()
     #get some metadata for each accession
     accession_createtime = accession_json['create_time']
-    
     #Account for various identifier practices (eg. 2 part vs. 1 part - Duke uses 2 part)
     try:
         accession_identifier = accession_json['id_0'] + "-" + accession_json['id_1']
     except:
         accession_identifier = accession_json['id_0']
-    
-    #get only accessions with create dates since cron job last executed
+       #get only accessions with create dates since cron job last executed
     if accession_createtime > current_time_minus_day:
-                
         #Get Some metadata from AS accession record to populate Trello Card (e.g. ID, Title, Extent, Description, etc.)
         #If no data in ASpace, supply some placeholder data
-        
         try:
             accession_title = accession_json['title']
         except:
             accession_title = 'NO TITLE in ASPACE'
-            
         try:
             accession_date = accession_json['accession_date']
         except:
             accession_date = 'NO ACC DATE IN ASPACE'
-            
         try:
             accession_acq_type = accession_json['acquisition_type']
         except:
             accession_acq_type = 'NO Acq. Type in ASPACE'
-        
         try:
             content_description = accession_json['content_description']
         except:
             content_description = ''
-        
         try:
             inventory_text = accession_json['inventory']
         except:
             inventory_text = ''
-            
         try:
             special_media_format_text = accession_json['user_defined']['text_1']
         except:
             special_media_format_text = ''
-            
         try:
             notes_for_processor_text = accession_json['collection_management']['processing_plan']
         except:
             notes_for_processor_text = ''
-        
-        
         #Get related resources
         related_resources_list = []
         #This is probably not the best way...but seems to work
@@ -215,7 +260,6 @@ for accession in last_20_accessions:
                 related_resources_text = 'NONE listed in ASpace'
         except:
             related_resources_text = 'NONE listed in ASpace'
-        
         try:
             provenance_note = accession_json['provenance']
         except:
@@ -226,27 +270,20 @@ for accession in last_20_accessions:
             accession_research_center = accession_json['user_defined']['enum_2']
         except:
             accession_research_center = 'NO CENTER ASSIGNED'
-            
         try:
             accession_extent = accession_json['extents'][0]['number'] + " " + accession_json['extents'][0]['extent_type']
         except:
             accession_extent = 'NO EXTENT IN ASPACE'
-            
         try:
             accession_container_summary = " (" + accession_json['extents'][0]['container_summary'] + ")"
         except:
             accession_container_summary = ''
-            
         accession_extent = accession_extent + accession_container_summary
-        
         #Concat Accession ID and Title for Trello Card Titles (e.g. 2020-0001: John Doe Papers)
         card_title = accession_identifier + ": " + accession_title
-        
         #concat a bunch of fields to card_description variable and add some linebreaks, add some markdown too for bolding field labels
         card_description = "**Acq Type**: " + accession_acq_type + "\n" + "**Accn Date**: " + accession_date + "\n" "**Extent**: " + accession_extent + "\n\n" + "**Provenance**: " + provenance_note + "\n\n" + "**Note for Processor**: " + notes_for_processor_text + "\n\n" + "**Inventory**: " + inventory_text + "\n\n" + "**Special Media Formats**: " + special_media_format_text + "\n\n" + "**Related Resource(s)**: " + related_resources_text + "\n\n" + "**Description**: \n\n" + content_description
-                
         print("Creating New Trello Card for: " + card_title + " | entered on: " + str(accession_createtime) + " | " + accession_research_center)
-               
         #create cards in target_list, assign labels and assign members based on center names in ASpace accession records
         #new cards are added to top of list (position = top)
         if accession_research_center == 'ada':
@@ -274,7 +311,6 @@ for accession in last_20_accessions:
         #If No Center Assigned
         else:
             target_list.add_card(card_title, desc=card_description, position="top")
-            
     else:
         print(accession_identifier + " not entered in last 24 hours")
 
